@@ -1,0 +1,89 @@
+//
+// Copyright (C) 2019 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+cc_library_static {
+    name: "libscudo",
+    native_coverage: false,
+    recovery_available: true,
+    host_supported: true,
+    native_bridge_supported: true,
+
+    rtti: false,
+    stl: "none",
+
+    cflags: [
+        "-O3",
+        "-fno-rtti",
+
+        "-Wall",
+        "-Wextra",
+        "-Wunused",
+        "-Wno-unused-result",
+
+        "-Werror=pointer-to-int-cast",
+        "-Werror=int-to-pointer-cast",
+        "-Werror=type-limits",
+        "-Werror",
+
+        "-D_BIONIC=1",
+    ],
+    cppflags: [
+        "-nostdinc++",
+        "-fno-exceptions",
+    ],
+
+    system_shared_libs: [],
+
+    srcs: [
+        "standalone/checksum.cpp",
+        "standalone/common.cpp",
+        "standalone/flags.cpp",
+        "standalone/flags_parser.cpp",
+        "standalone/linux.cpp",
+        "standalone/report.cpp",
+        "standalone/secondary.cpp",
+        "standalone/string_utils.cpp",
+        "standalone/wrappers_c_bionic.cpp"
+    ],
+    arch: {
+        arm: {
+            cflags: ["-mcrc"],
+            srcs: ["standalone/crc32_hw.cpp"],
+        },
+        arm64: {
+            cflags: ["-mcrc"],
+            srcs: ["standalone/crc32_hw.cpp"],
+        },
+        x86_64: {
+            cflags: ["-msse4.2"],
+            srcs: ["standalone/crc32_hw.cpp"],
+        },
+        x86: {
+            cflags: ["-msse4.2"],
+            srcs: ["standalone/crc32_hw.cpp"],
+        },
+    },
+
+    target: {
+        linux_glibc: {
+            enabled: true,
+        },
+    },
+
+    include_dirs: [
+        "bionic/libc/private",
+    ],
+}
