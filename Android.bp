@@ -27,6 +27,8 @@ cc_library_static {
     cflags: [
         "-O3",
         "-fno-rtti",
+        // This option speeds up alloc/free code paths by about 5% to 7%.
+        "-fno-stack-protector",
 
         "-Wall",
         "-Wextra",
