@@ -85,7 +85,7 @@ cc_library_static {
         },
     },
 
-    include_dirs: [
-        "bionic/libc/private",
+    header_libs: [
+        "bionic_libc_platform_headers",
     ],
 }
