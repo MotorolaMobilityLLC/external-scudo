@@ -56,7 +56,6 @@ cc_library_static {
         "standalone/flags_parser.cpp",
         "standalone/linux.cpp",
         "standalone/report.cpp",
-        "standalone/secondary.cpp",
         "standalone/string_utils.cpp",
         "standalone/wrappers_c_bionic.cpp"
     ],
