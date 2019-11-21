@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-cc_library_static {
-    name: "libscudo",
+cc_defaults {
+    name: "libscudo_defaults",
     native_coverage: false,
     recovery_available: true,
     host_supported: true,
@@ -29,6 +29,7 @@ cc_library_static {
         "-fno-rtti",
         // This option speeds up alloc/free code paths by about 5% to 7%.
         "-fno-stack-protector",
+        "-fno-emulated-tls",
 
         "-Wall",
         "-Wextra",
@@ -39,8 +40,6 @@ cc_library_static {
         "-Werror=int-to-pointer-cast",
         "-Werror=type-limits",
         "-Werror",
-
-        "-D_BIONIC=1",
     ],
     cppflags: [
         "-nostdinc++",
@@ -86,5 +85,51 @@ cc_library_static {
 
     header_libs: [
         "bionic_libc_platform_headers",
+    ],
+}
+
+cc_library_static {
+    name: "libscudo",
+    defaults: ["libscudo_defaults"],
+    cflags: ["-D_BIONIC=1"],
+}
+
+cc_library_static {
+    name: "libscudo_for_testing",
+    defaults: ["libscudo_defaults"],
+}
+
+cc_test {
+    name: "scudo_unit_tests",
+    srcs: [
+        "standalone/tests/atomic_test.cpp",
+        "standalone/tests/bytemap_test.cpp",
+        "standalone/tests/checksum_test.cpp",
+        "standalone/tests/chunk_test.cpp",
+        "standalone/tests/combined_test.cpp",
+        "standalone/tests/flags_test.cpp",
+        "standalone/tests/list_test.cpp",
+        "standalone/tests/map_test.cpp",
+        "standalone/tests/mutex_test.cpp",
+        "standalone/tests/primary_test.cpp",
+        "standalone/tests/quarantine_test.cpp",
+        "standalone/tests/release_test.cpp",
+        "standalone/tests/report_test.cpp",
+        "standalone/tests/scudo_unit_test_main.cpp",
+        "standalone/tests/secondary_test.cpp",
+        "standalone/tests/size_class_map_test.cpp",
+        "standalone/tests/stats_test.cpp",
+        "standalone/tests/strings_test.cpp",
+        "standalone/tests/tsd_test.cpp",
+        "standalone/tests/vector_test.cpp",
+    ],
+    static_libs: ["libscudo_for_testing"],
+    include_dirs: [
+        "external",
+        "external/scudo/standalone",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
+        "-fno-emulated-tls",
     ],
 }
