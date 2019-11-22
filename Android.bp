@@ -101,6 +101,7 @@ cc_library_static {
 
 cc_test {
     name: "scudo_unit_tests",
+    host_supported: true,
     srcs: [
         "standalone/tests/atomic_test.cpp",
         "standalone/tests/bytemap_test.cpp",
@@ -132,4 +133,5 @@ cc_test {
         "-Wno-unused-parameter",
         "-fno-emulated-tls",
     ],
+    test_suites: ["general-tests"],
 }
