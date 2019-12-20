@@ -2,6 +2,12 @@
   "presubmit": [
     {
       "name": "scudo_unit_tests"
+    },
+    {
+      "name": "memunreachable_unit_test"
+    },
+    {
+      "name": "CtsBionicTestCases"
     }
   ]
 }
