@@ -40,6 +40,11 @@ cc_defaults {
         "-Werror=int-to-pointer-cast",
         "-Werror=type-limits",
         "-Werror",
+
+        // Always force alignment to 16 bytes even on 32 bit.
+        // Android assumes that allocations of multiples of 16 bytes
+        // will be aligned to at least 16 bytes.
+        "-DSCUDO_MIN_ALIGNMENT_LOG=4",
     ],
     cppflags: [
         "-nostdinc++",
