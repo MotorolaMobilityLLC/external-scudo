@@ -17,6 +17,7 @@
 cc_defaults {
     name: "libscudo_defaults",
     native_coverage: false,
+    ramdisk_available: true,
     recovery_available: true,
     host_supported: true,
     native_bridge_supported: true,
