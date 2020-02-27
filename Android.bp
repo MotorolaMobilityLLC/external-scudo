@@ -60,6 +60,7 @@ cc_defaults {
         "standalone/flags.cpp",
         "standalone/flags_parser.cpp",
         "standalone/linux.cpp",
+        "standalone/release.cpp",
         "standalone/report.cpp",
         "standalone/string_utils.cpp",
         "standalone/wrappers_c_bionic.cpp"
