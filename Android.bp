@@ -52,6 +52,10 @@ cc_defaults {
         "-fno-exceptions",
     ],
 
+    include_dirs: [
+        "external/scudo/standalone/include",
+    ],
+
     system_shared_libs: [],
 
     srcs: [
@@ -138,8 +142,8 @@ cc_test {
     ],
     static_libs: ["libscudo_for_testing"],
     include_dirs: [
-        "external",
         "external/scudo/standalone",
+        "external/scudo/standalone/include",
     ],
     cflags: [
         "-Wno-unused-parameter",
