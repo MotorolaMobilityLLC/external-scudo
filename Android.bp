@@ -46,6 +46,10 @@ cc_defaults {
         // Android assumes that allocations of multiples of 16 bytes
         // will be aligned to at least 16 bytes.
         "-DSCUDO_MIN_ALIGNMENT_LOG=4",
+
+        // Allow scudo to use android_unsafe_frame_pointer_chase(), which is
+        // normally a private function.
+        "-DHAVE_ANDROID_UNSAFE_FRAME_POINTER_CHASE",
     ],
     cppflags: [
         "-nostdinc++",
