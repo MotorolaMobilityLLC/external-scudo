@@ -96,14 +96,21 @@ cc_defaults {
         linux_glibc: {
             enabled: true,
         },
-    },
-
-    header_libs: [
-        "bionic_libc_platform_headers",
-    ],
-    product_variables: {
-        experimental_mte: {
-            cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+        android: {
+            header_libs: ["bionic_libc_platform_headers"],
+            product_variables: {
+                experimental_mte: {
+                    cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+                },
+            },
+        },
+        linux_bionic: {
+            header_libs: ["bionic_libc_platform_headers"],
+            product_variables: {
+                experimental_mte: {
+                    cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+                },
+            },
         },
     },
 }
@@ -153,12 +160,22 @@ cc_test {
         "-Wno-unused-parameter",
         "-fno-emulated-tls",
     ],
-    header_libs: [
-        "bionic_libc_platform_headers",
-    ],
-    product_variables: {
-        experimental_mte: {
-            cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+    target: {
+        android: {
+            header_libs: ["bionic_libc_platform_headers"],
+            product_variables: {
+                experimental_mte: {
+                    cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+                },
+            },
+        },
+        linux_bionic: {
+            header_libs: ["bionic_libc_platform_headers"],
+            product_variables: {
+                experimental_mte: {
+                    cflags: ["-DANDROID_EXPERIMENTAL_MTE"],
+                },
+            },
         },
     },
     test_suites: ["general-tests"],
