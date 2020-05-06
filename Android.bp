@@ -113,6 +113,8 @@ cc_defaults {
             },
         },
     },
+
+    header_libs: ["libc_headers"],
 }
 
 cc_library_static {
