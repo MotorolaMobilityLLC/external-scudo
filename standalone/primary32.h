@@ -446,6 +446,14 @@ private:
       }
     }
 
+    if (BlockSize < PageSize / 16) {
+      if (BytesPushed < (Sci->AllocatedUser / 16U))
+        return 0;
+      if (BytesInFreeList / (Sci->AllocatedUser / 100U) <
+            (100U - getMostSignificantSetBitIndex(BlockSize) * 2))
+        return 0;
+    }
+
     // TODO(kostyak): currently not ideal as we loop over all regions and
     // iterate multiple times over the same freelist if a ClassId spans multiple
     // regions. But it will have to do for now.
