@@ -213,9 +213,7 @@ public:
     return reinterpret_cast<const char *>(RegionInfoArray);
   }
 
-  static uptr getRegionInfoArraySize() {
-    return sizeof(RegionInfoArray);
-  }
+  static uptr getRegionInfoArraySize() { return sizeof(RegionInfoArray); }
 
   static BlockInfo findNearestBlock(const char *RegionInfoData, uptr Ptr) {
     const RegionInfo *RegionInfoArray =

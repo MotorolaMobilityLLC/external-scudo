@@ -38,7 +38,8 @@ TEST(ScudoReleaseTest, PackedCounterArray) {
     // Make sure counters request one memory page for the buffer.
     const scudo::uptr NumCounters =
         (scudo::getPageSizeCached() / 8) * (SCUDO_WORDSIZE >> I);
-    scudo::PackedCounterArray Counters(1U, NumCounters, 1UL << ((1UL << I) - 1));
+    scudo::PackedCounterArray Counters(1U, NumCounters,
+                                       1UL << ((1UL << I) - 1));
     Counters.inc(0U, 0U);
     for (scudo::uptr C = 1; C < NumCounters - 1; C++) {
       EXPECT_EQ(0UL, Counters.get(0U, C));
@@ -48,7 +49,7 @@ TEST(ScudoReleaseTest, PackedCounterArray) {
     EXPECT_EQ(0UL, Counters.get(0U, NumCounters - 1));
     Counters.inc(0U, NumCounters - 1);
     if (I > 0) {
-      Counters.incRange(0U, 0U, NumCounters - 1);
+      Counters.incRange(0u, 0U, NumCounters - 1);
       for (scudo::uptr C = 0; C < NumCounters; C++)
         EXPECT_EQ(2UL, Counters.get(0U, C));
     }
@@ -240,7 +241,9 @@ template <class SizeClassMap> void testReleaseFreeMemoryToOS() {
 
     if (InFreeRange) {
       scudo::uptr P = scudo::roundUpTo(CurrentFreeRangeStart, PageSize);
-      while (P + PageSize <= MaxBlocks * BlockSize) {
+      const scudo::uptr EndPage =
+          scudo::roundUpTo(MaxBlocks * BlockSize, PageSize);
+      while (P + PageSize <= EndPage) {
         const bool PageReleased =
             Recorder.ReportedPages.find(P) != Recorder.ReportedPages.end();
         EXPECT_EQ(true, PageReleased);

@@ -483,7 +483,7 @@ private:
       }
     }
     uptr TotalReleasedBytes = 0;
-    if (First != 0U && Last != 0U) {
+    if (First && Last) {
       const uptr Base = First * RegionSize;
       const uptr NumberOfRegions = Last - First + 1U;
       ReleaseRecorder Recorder(Base);
