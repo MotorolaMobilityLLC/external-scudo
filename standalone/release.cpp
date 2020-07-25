@@ -11,6 +11,6 @@
 namespace scudo {
 
 HybridMutex PackedCounterArray::Mutex = {};
-uptr PackedCounterArray::StaticBuffer[PackedCounterArray::StaticBufferCount];
+uptr PackedCounterArray::StaticBuffer[1024];
 
 } // namespace scudo
