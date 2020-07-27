@@ -32,8 +32,6 @@ extern "C" inline void EmptyCallback() {}
 
 namespace scudo {
 
-enum class Option { ReleaseInterval };
-
 template <class Params, void (*PostInitCallback)(void) = EmptyCallback>
 class Allocator {
 public:
@@ -239,7 +237,7 @@ public:
         return nullptr;
       reportAlignmentTooBig(Alignment, MaxAlignment);
     }
-    if (Alignment < MinAlignment)
+    if (UNLIKELY(Alignment < MinAlignment))
       Alignment = MinAlignment;
 
     // If the requested size happens to be 0 (more common than you might think),
@@ -276,13 +274,11 @@ public:
       if (UNLIKELY(!Block)) {
         while (ClassId < SizeClassMap::LargestClassId) {
           Block = TSD->Cache.allocate(++ClassId);
-          if (LIKELY(Block)) {
+          if (LIKELY(Block))
             break;
-          }
         }
-        if (UNLIKELY(!Block)) {
+        if (UNLIKELY(!Block))
           ClassId = 0;
-        }
       }
       if (UnlockRequired)
         TSD->unlock();
@@ -303,7 +299,7 @@ public:
 
     void *Ptr = reinterpret_cast<void *>(UserPtr);
     void *TaggedPtr = Ptr;
-    if (ClassId) {
+    if (LIKELY(ClassId)) {
       // We only need to zero or tag the contents for Primary backed
       // allocations. We only set tags for primary allocations in order to avoid
       // faulting potentially large numbers of pages for large secondary
@@ -634,12 +630,14 @@ public:
   }
 
   bool setOption(Option O, sptr Value) {
-    if (O == Option::ReleaseInterval) {
-      Primary.setReleaseToOsIntervalMs(static_cast<s32>(Value));
-      Secondary.setReleaseToOsIntervalMs(static_cast<s32>(Value));
-      return true;
-    }
-    return false;
+    initThreadMaybe();
+    // We leave it to the various sub-components to decide whether or not they
+    // want to handle the option, but we do not want to short-circuit
+    // execution if one of the setOption was to return false.
+    const bool PrimaryResult = Primary.setOption(O, Value);
+    const bool SecondaryResult = Secondary.setOption(O, Value);
+    const bool RegistryResult = TSDRegistry.setOption(O, Value);
+    return PrimaryResult && SecondaryResult && RegistryResult;
   }
 
   // Return the usable size for a given chunk. Technically we lie, as we just
