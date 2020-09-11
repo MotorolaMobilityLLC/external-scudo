@@ -120,7 +120,10 @@ cc_defaults {
 cc_library_static {
     name: "libscudo",
     defaults: ["libscudo_defaults"],
-    cflags: ["-D_BIONIC=1"],
+    cflags: [
+      "-D_BIONIC=1",
+      "-DSCUDO_HAS_PLATFORM_TLS_SLOT",
+    ],
 }
 
 cc_library_static {
