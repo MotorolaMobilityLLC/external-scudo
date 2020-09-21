@@ -124,6 +124,11 @@ cc_library_static {
       "-D_BIONIC=1",
       "-DSCUDO_HAS_PLATFORM_TLS_SLOT",
     ],
+    visibility: [
+      "//bionic:__subpackages__",
+      "//frameworks/libs/native_bridge_support/overriding/libc:__subpackages__",
+      "//system/core/debuggerd:__subpackages__",
+    ],
 }
 
 cc_library_static {
