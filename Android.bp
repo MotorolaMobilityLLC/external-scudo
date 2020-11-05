@@ -126,7 +126,7 @@ cc_library_static {
     ],
     visibility: [
       "//bionic:__subpackages__",
-      "//frameworks/libs/native_bridge_support:__subpackages__",
+      "//frameworks/libs/native_bridge_support/libc:__subpackages__",
       "//system/core/debuggerd:__subpackages__",
     ],
 }
