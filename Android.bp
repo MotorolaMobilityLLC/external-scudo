@@ -140,6 +140,16 @@ cc_defaults {
         },
     },
 
+    // Moto begin: IKSWS-25148, scudo optimization patch for qcom
+    product_variables: {
+        board_chipset_vendor_is_qcom: {
+            cflags: [
+                "-DENABLE_QC_BELUGA",
+            ],
+        },
+    },
+    // Moto END IKSWS-25148
+
     header_libs: ["libc_headers"],
 }
 
