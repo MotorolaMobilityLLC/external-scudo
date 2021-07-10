@@ -300,7 +300,7 @@ struct AndroidSizeClassConfig {
 // Moto BEGIN: IKSWS-25148, scudo optimization patch from qcom
 // enlarge the alloc size for the primary allocator
 #ifdef ENABLE_QC_BELUGA
-  static const uptr MaxSizeLog = 18;
+  static const uptr MaxSizeLog = 19;
 #else
   static const uptr MaxSizeLog = 16;
 #endif
@@ -317,7 +317,7 @@ struct AndroidSizeClassConfig {
 // Moto BEGIN: IKSWS-25148, scudo optimization patch from qcom
 // qcom add the class to optimize the primary allocator
 #ifdef ENABLE_QC_BELUGA
-      0x18010, 0x20010, 0x28010, 0x30010, 0x38010, 0x40010,
+      0x18010, 0x20010, 0x28010, 0x30010, 0x38010, 0x40010, 0x60010, 0x80010,
 #endif
 // Moto END: IKSWS-25148
   };
